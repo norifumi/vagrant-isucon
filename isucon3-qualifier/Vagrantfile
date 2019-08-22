@@ -76,13 +76,14 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell", inline: <<-SHELL
     set -e
+    yum install epel-release
     sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
     yum install -y epel-release git
     yum install -y ansible
     yum update -y nss curl libcurl
 
     rm -rf ansible-isucon
-    git clone https://github.com/matsuu/ansible-isucon.git
+    git clone https://github.com/norifumi/ansible-isucon.git
     (
       cd ansible-isucon/isucon3-qualifier
       PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ansible-playbook playbook.yml -i local
